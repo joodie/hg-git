@@ -21,9 +21,10 @@ These utilities can all be deleted when dulwich decides it wants to stop
 support for python 2.4.
 """
 try:
-    import hashlib
-except ImportError:
     import sha
+except ImportError:
+    import hashlib
+
 import struct
 
 
