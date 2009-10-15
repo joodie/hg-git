@@ -635,7 +635,10 @@ class GitHandler(object):
         
         # import each of the commits, oldest first
         total = len(commits)
-        magnitude = int(math.log(total, 10)) + 1 if total else 1
+        if total:
+            magnitude = int(math.log(total, 10)) + 1
+        else:
+            magnitude = 1
         for i, csha in enumerate(commits):
             if i%100 == 0:
                 self.ui.status(_("at: %*d/%d\n") % (magnitude, i, total))
@@ -654,7 +657,10 @@ class GitHandler(object):
                 branches = self.bookbranch.split(',')
                 heads = dict((i, self.git.ref(i.strip())) for i in branches)
 
-            base_name = (remote_name + '/') if remote_name else '' 
+            if remote_name:
+                base_name = (remote_name + '/')
+            else:
+                base_name = ''
 
             for head, sha in heads.iteritems():
                 if not sha:
